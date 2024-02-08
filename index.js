@@ -31,6 +31,7 @@ app.post('/MeinungsSpiegel', (req, res) =>{
 	const data = req.body;
 	res.status(200).json({"Message": "Data posted", data});
 	txts = data.toString().split(",");
+	//console.log(txts);
 	requestPost().catch(console.error);
 })
 
@@ -73,8 +74,9 @@ async function requestPost() {
 		    console.log('Connection to server wasnt successfull');
 		  } else {
 		    console.log('Connected successfully to server');
+                    startInput(collection,null);
+                    //findBrowserId (collection)
 
-                    findBrowserId (collection)
 		  }
 		})
                     
@@ -105,12 +107,6 @@ function createDocument(id, arr) {
                         },
                         { question: arr[10],
                           input: arr[11]
-                        },
-                        { question: arr[12],
-                          input: arr[13]
-                        },
-                        { question: arr[14],
-                          input: arr[15]
                         }
                      ]
            }
@@ -133,7 +129,7 @@ async function findBrowserId (collection) {
 	    var brtext = txts[1];
 	    if(membCount > 0) {
               
-	       await collection
+	    await collection
 		  .findOne({ 'browserid': brtext })
 		  .then(
 		       res => startInput(collection,res)
